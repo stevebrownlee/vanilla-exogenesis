@@ -13,7 +13,7 @@ export const ColonyMinerals = () => {
         const colonyMinerals = getColonyMinerals()
 
         return `
-            <h2>Colony Minerals</h2>
+            <h2>${colony.name} Minerals</h2>
             ${
                 colonyMinerals
                     .filter(cm => cm.colonyId === colony.id)

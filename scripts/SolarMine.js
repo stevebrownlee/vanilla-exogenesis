@@ -1,3 +1,4 @@
+import { ChosenOptions } from "./ChosenOptions.js"
 import { ColonyMinerals } from "./ColonyMinerals.js"
 import { addCustomOrder } from "./database.js"
 import { Facilities } from "./Facilities.js"
@@ -21,12 +22,13 @@ export const SolarMine = () => {
         </article>
 
         <article class="choices">
+            ${ ChosenOptions() }
+            <article class="order">
+                <button id="orderButton">Create Custom Order</button>
+            </article>
         </article>
 
 
-        <article class="order">
-            <button id="orderButton">Create Custom Order</button>
-        </article>
 
         <article class="colony">
             <section class="governors">${ Governors() }</section>
