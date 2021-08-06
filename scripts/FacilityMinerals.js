@@ -1,4 +1,4 @@
-import { getFacilityMinerals, getMinerals, updateSelectedMinerals } from "./database.js"
+import { getFacilityMinerals, getMinerals, getTransientState, updateSelectedMinerals } from "./database.js"
 
 const minerals = getMinerals()
 
@@ -16,6 +16,7 @@ document.addEventListener(
 
 export const FacilityMinerals = (facilityId) => {
     const facMin = getFacilityMinerals()
+    const state = getTransientState()
     const thisFacilityMinerals = facMin.filter(fm => fm.facilityId === facilityId)
 
     return `
@@ -23,9 +24,10 @@ export const FacilityMinerals = (facilityId) => {
         <h2>Facility Minerals for #${facilityId}</h2>
         ${
             thisFacilityMinerals.map(fm => {
+                const alreadyChosen = [...state.selectedMinerals.values()].includes(fm.id)
                 const mineral = minerals.find(m => m.id === fm.mineralId)
                 return `<div>
-                    <input type="radio" name="facilityMineral" value="${fm.id}" />
+                    <input type="radio" ${alreadyChosen ? "checked": ""} name="facilityMineral" value="${fm.id}" />
                     ${fm.quantity} tons of ${mineral.name}
                 </div>`
             }).join("")
