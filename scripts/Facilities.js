@@ -1,14 +1,12 @@
 import { getFacilities, getTransientState, setFacility } from "./database.js"
-import { FacilityMinerals } from "./FacilityMinerals.js"
 
 const facilities = getFacilities()
 
 document.addEventListener(
-    "click",
+    "change",
     evt => {
-        if (evt.target.id.startsWith("facility--")) {
-            const [, facilityId] = evt.target.id.split("--")
-            setFacility(parseInt(facilityId))
+        if (evt.target.id === "facilityChoice") {
+            setFacility(parseInt(evt.target.value))
         }
     }
 )
@@ -16,18 +14,19 @@ document.addEventListener(
 export const Facilities = () => {
     const state = getTransientState()
 
-    return facilities.map(facility => `
-        <section class="facility">
-            <button ${state.chosenGovernor > 0 ? "" : "disabled"}
-                class="facility__selector"
-                id="facility--${facility.id}">
-                ${facility.name}
-            </button>
+    return `
+        <label>Choose a facility</label>
+        <select id="facilityChoice">
+            <option value="0">Choose a facility...</option>
             ${
-                state.selectedFacility === facility.id
-                    ? FacilityMinerals(facility.id)
-                    : ""
+                facilities.map(facility => `
+                    <option ${state.selectedFacility === facility.id ? "selected" : ""}
+                        value="${facility.id}">
+                        ${facility.name}
+                    </option>
+                `).join("")
             }
-        </section>
-    `).join("")
+        }
+        </select>
+    `
 }

@@ -16,19 +16,17 @@ export const Governors = () => {
     const state = getTransientState()
 
     return `
-        <section class="governors">
-            <label>Choose a governor</label>
-            <select id="governor">
-                <option value="0">Choose a governor...</option>
-                ${
-                    governors.map(governor => `
-                        <option value="${governor.id}"
-                            ${state.chosenGovernor === governor.id ? "selected": ""}>
-                            ${governor.name}
-                        </option>
-                    `).join("")
-                }
-            </select>
-        </section>
+        <label>Choose a governor</label>
+        <select id="governor">
+            <option value="0">Choose a governor...</option>
+            ${
+                governors.map(governor => `
+                    <option value="${governor.id}"
+                        ${state.chosenGovernor === governor.id ? "selected": ""}>
+                        ${governor.name}
+                    </option>
+                `).join("")
+            }
+        </select>
     `
 }

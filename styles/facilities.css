@@ -1,8 +1,9 @@
 .facilities {
+    margin-top: 1rem;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
 }
 
-.facility {
-    flex-basis: 25%;
+#facilityChoice {
+    margin-left: 0.5rem;
 }

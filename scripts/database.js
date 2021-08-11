@@ -2,7 +2,7 @@ const database = {
     transientState: {
         chosenGovernor: 0,
         selectedFacility: 0,
-        selectedMinerals: new Map()
+        selectedMineral: 0
     },
     facilities: [
         {
@@ -121,43 +121,43 @@ const database = {
     ]
 }
 
-export const updateSelectedMinerals = (facilityMineral) => {
-    database.transientState.selectedMinerals.set(facilityMineral.facilityId, facilityMineral.id)
-    document.dispatchEvent( new CustomEvent("stateChanged") )
+export const updateSelectedMineral = (facilityMineral) => {
+    database.transientState.selectedMineral = facilityMineral
+    document.dispatchEvent(new CustomEvent("stateChanged"))
 }
 
 export const setFacility = (facilityId) => {
     database.transientState.selectedFacility = facilityId
-    document.dispatchEvent( new CustomEvent("stateChanged") )
+    document.dispatchEvent(new CustomEvent("stateChanged"))
 }
 
 export const getFacilities = () => {
-    return database.facilities.map(f => ({...f}))
+    return database.facilities.map(f => ({ ...f }))
 }
 
 export const getMinerals = () => {
-    return database.minerals.map(f => ({...f}))
+    return database.minerals.map(f => ({ ...f }))
 }
 
 export const getGovernors = () => {
-    return database.governors.map(f => ({...f}))
+    return database.governors.map(f => ({ ...f }))
 }
 
 export const getColonies = () => {
-    return database.colonies.map(f => ({...f}))
+    return database.colonies.map(f => ({ ...f }))
 }
 
 export const setGovernor = (id) => {
     database.transientState.chosenGovernor = id
-    document.dispatchEvent( new CustomEvent("stateChanged") )
+    document.dispatchEvent(new CustomEvent("stateChanged"))
 }
 
 export const getColonyMinerals = () => {
-    return database.colonyMinerals.map(f => ({...f}))
+    return database.colonyMinerals.map(f => ({ ...f }))
 }
 
 export const getFacilityMinerals = () => {
-    return database.facilityMinerals.map(f => ({...f}))
+    return database.facilityMinerals.map(f => ({ ...f }))
 }
 
 export const getTransientState = () => {
@@ -172,37 +172,30 @@ export const addCustomOrder = () => {
         const colony = database.colonies.find(c => c.id === governor.colonyId)
         const colonyStockpile = database.colonyMinerals.filter(cm => cm.colonyId === colony.id)
 
-        // Get the Map() of selected minerals
-        const chosenMinerals = database.transientState.selectedMinerals
+        const facilityMineral = database.facilityMinerals.find(fm => fm.id === database.transientState.selectedMineral)
+        const colonyMineral = colonyStockpile.find(cm => cm.mineralId === facilityMineral.mineralId)
 
-        // Swap the mineral(s) from mining facility to colont
-        for (const [facilityId, facilityMineralId] of chosenMinerals.entries()) {
-            const facilityMineral = database.facilityMinerals.find(fm => fm.id === facilityMineralId)
-            const colonyMineral = colonyStockpile.find(cm => cm.mineralId === facilityMineral.mineralId)
-
-            // If the colony has the mineral already, increase the quantity by one
-            if (colonyMineral) {
-                colonyMineral.quantity++
-            }
-            // If this is a new miineral for the colony, add a new object for the new relationship
-            else {
-                database.colonyMinerals.push({
-                    id: database.colonyMinerals[database.colonyMinerals.length - 1].id++,
-                    mineralId: facilityMineral.mineralId,
-                    colonyId: colony.id,
-                    quantity: 1
-                })
-            }
-
-            // Decrease the quantity in the mining facility
-            facilityMineral.quantity--
+        // If the colony has the mineral already, increase the quantity by one
+        if (colonyMineral) {
+            colonyMineral.quantity++
+        }
+        // If this is a new miineral for the colony, add a new object for the new relationship
+        else {
+            database.colonyMinerals.push({
+                id: database.colonyMinerals[database.colonyMinerals.length - 1].id++,
+                mineralId: facilityMineral.mineralId,
+                colonyId: colony.id,
+                quantity: 1
+            })
         }
 
+        // Decrease the quantity in the mining facility
+        facilityMineral.quantity--
+
         // Clear out chosen minerals to make space for a new order
-        database.transientState.selectedMinerals = new Map()
+        database.transientState.selectedMineral = 0
 
 
-        document.dispatchEvent( new CustomEvent("stateChanged") )
+        document.dispatchEvent(new CustomEvent("stateChanged"))
     }
 }
-

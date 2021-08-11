@@ -31,8 +31,22 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .choices {
+	display: flex;
+	flex-wrap: nowrap;
+}
+
+.minerals--chosen {
 	border: 1px dashed darkcyan;
 	margin-top: 2rem;
 	text-align: center;
-	padding: 0 0 2rem 0;
+	padding: 0 2rem 2rem 2rem;
+	flex: 1;
+}
+
+.minerals--forsale {
+	border: 1px dashed rgb(103, 22, 138);
+	margin: 2rem 1rem 0 0;
+	text-align: center;
+	padding: 0 2rem 2rem 2rem;
+	flex: 5;
 }
