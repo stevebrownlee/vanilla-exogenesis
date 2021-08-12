@@ -10,6 +10,7 @@ export const SolarMine = () => {
 
         <section class="governors">
             ${ Governors() }
+            ${ ColonyMinerals() }
         </section>
 
         <article class="facilities">
@@ -26,8 +27,5 @@ export const SolarMine = () => {
             </section>
         </article>
 
-        <article class="colony">
-            <section class="stockpile">${ ColonyMinerals() }</section>
-        </article>
     `
 }

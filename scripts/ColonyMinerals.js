@@ -13,7 +13,8 @@ export const ColonyMinerals = () => {
         const colonyMinerals = getColonyMinerals()
 
         return `
-            <h2>${colony.name} Minerals</h2>
+        <section class="stockpile">
+            <h2 class="colonyTitle">${colony.name} Minerals</h2>
             ${
                 colonyMinerals
                     .filter(cm => cm.colonyId === colony.id)
@@ -25,10 +26,11 @@ export const ColonyMinerals = () => {
                     )
                     .join("")
             }
+        </section>
         `
     }
     else {
-        return "<h2>Colony Minerals</h2>"
+        return `<section class="stockpile"><h2 class="colonyTitle">Colony Minerals</h2></section>`
     }
 
 }
